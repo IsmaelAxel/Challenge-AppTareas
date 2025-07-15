@@ -1,0 +1,21 @@
+# Node.js dependencies (backend y frontend)
+backend/node_modules/
+frontend/node_modules/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env files (variables de entorno)
+backend/.env
+frontend/.env
+
+# Build output (solo frontend si usás build)
+frontend/dist/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
