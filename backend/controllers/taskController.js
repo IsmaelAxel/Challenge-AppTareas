@@ -1,3 +1,4 @@
+const {v4: uuidv4} = require('uuid'); // Importa la librería para generar IDs únicos si es necesario
 const tasks = require('../data/tasks');
 
 // GET /api/tasks
@@ -15,7 +16,7 @@ function createTask(req, res) {
   }
 
   const newTask = {
-    id: (tasks.length + 1).toString(), // Genera un ID simple basado en la longitud del array
+    id: uuidv4(), // Genera un ID simple basado en la longitud del array
     title,
     description,
     completed: false,

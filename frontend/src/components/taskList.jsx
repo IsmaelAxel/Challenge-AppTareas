@@ -1,24 +1,56 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function TaskList() {
-  const [tasks, setTasks] = useState([]); // Estado para guardar las tareas
+  const [tasks, setTasks] = useState([]);
+
   useEffect(() => {
-    fetch('http://localhost:3000/api/tasks') // Pedimos las tareas al backend
-      .then(res => res.json()) // Convertimos la respuesta a JSON
-      .then(data => setTasks(data)) // Guardamos las tareas en el estado
-      .catch(error => console.error('Error al obtener tareas:', error));
-  }, []); // El array vacío [] indica que se ejecuta solo una vez
+    fetch("http://localhost:3001/api/tasks")
+      .then((res) => res.json())
+      .then((data) => setTasks(data));
+  }, []);
+
+  // Separamos las tareas en dos grupos:
+  const completedTasks = tasks.filter((task) => task.completed);
+  const uncompletedTasks = tasks.filter((task) => !task.completed);
 
   return (
     <div>
-      <h2>Lista de Tareas</h2>
-      <ul>
-        {tasks.map(task => (
-          <li key={task.id}>
-            <strong>{task.title}</strong> - {task.description} - {task.completed ? '✅' : '❌'}
-          </li>
-        ))}
-      </ul>
+      {/* TAREAS NO COMPLETADAS */}
+      <section>
+        <h2>⏳ Pendientes</h2>
+        {uncompletedTasks.length === 0 ? (
+          <p>No hay tareas pendientes.</p>
+        ) : (
+          <ul>
+            {uncompletedTasks.map((task) => (
+              <li key={task.id} className="task">
+                <Link to={`/tarea/${task.id}`}>
+                  <strong>{task.title}</strong>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {/* TAREAS COMPLETADAS */}
+      <section>
+        <h2>✅ Completadas</h2>
+        {completedTasks.length === 0 ? (
+          <p>No hay tareas completadas.</p>
+        ) : (
+          <ul>
+            {completedTasks.map((task) => (
+              <li key={task.id} className="task">
+                <Link to={`/tarea/${task.id}`}>
+                  <strong>{task.title}</strong>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }
