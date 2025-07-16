@@ -1,23 +1,13 @@
-import { useEffect, useState } from "react";
+// src/components/TaskList.jsx
 import { Link } from "react-router-dom";
+import { useTasks } from "../hooks/useTasks";
 
 function TaskList() {
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:3001/api/tasks")
-      .then((res) => res.json())
-      .then((data) => setTasks(data));
-  }, []);
-
-  // Separamos las tareas en dos grupos:
-  const completedTasks = tasks.filter((task) => task.completed);
-  const uncompletedTasks = tasks.filter((task) => !task.completed);
+  const { completedTasks, uncompletedTasks } = useTasks();
 
   return (
     <div>
-      {/* TAREAS NO COMPLETADAS */}
-      <section>
+      <section className="task-section">
         <h2>⏳ Pendientes</h2>
         {uncompletedTasks.length === 0 ? (
           <p>No hay tareas pendientes.</p>
@@ -34,8 +24,7 @@ function TaskList() {
         )}
       </section>
 
-      {/* TAREAS COMPLETADAS */}
-      <section>
+      <section className="task-section">
         <h2>✅ Completadas</h2>
         {completedTasks.length === 0 ? (
           <p>No hay tareas completadas.</p>
